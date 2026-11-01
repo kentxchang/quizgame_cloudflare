@@ -1,0 +1,44 @@
+{
+  // Cloudflare Wrangler 部署設定檔
+  // "name" 會成為網址的前半段：https://quiz-game-platform.<你的子網域>.workers.dev
+  // 只能使用英文小寫、數字與 -
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quiz-game-platform",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // 前端靜態檔案（教師後台、遊戲模板、成績回傳腳本）
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+
+  // Durable Object：內建 SQLite 的資料庫（題庫、任務、學生成績都存在這裡）
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "QUIZ_DB",
+        "class_name": "QuizDatabase"
+      }
+    ]
+  },
+
+  // ⚠️ 免費方案必須使用 new_sqlite_classes（不可寫成 new_classes）
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["QuizDatabase"]
+    }
+  ],
+
+  // 選填：教師後台「萬用密碼」。忘記密碼時可在這裡填入一組密碼後重新部署，
+  // 就能用它登入並重設密碼；平常保持空字串即可。
+  "vars": {
+    "ADMIN_PASSWORD": ""
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
