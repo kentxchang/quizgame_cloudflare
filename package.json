@@ -1,0 +1,20 @@
+{
+  "name": "quiz-game-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "題庫遊戲派送平台：建立題庫、派送答題遊戲、即時收集學生成績（Cloudflare Workers + Durable Objects SQLite）",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "login": "wrangler login",
+    "tail": "wrangler tail",
+    "extract": "node scripts/extract-templates.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241106.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^4.0.0"
+  }
+}
